@@ -1,0 +1,132 @@
+@import 'tailwindcss';
+
+:root {
+	--background: #e3e3e3;
+	--foreground: #171717;
+	--mainPurple: #78258d;
+	--cyan: #0092b8;
+
+	--white: #ffffff;
+	--whiteMuted: #ffffffa5;
+	--grey: #f9f9f9;
+	--secondGrey: #585858;
+	--black: #000000;
+	--shadowDark: rgba(0, 0, 0, 0.45);
+}
+
+@layer components {
+	.btn-underline {
+		@apply relative text-[18px] text-[color:var(--white)];
+	}
+
+	.btn-underline::after {
+		content: '';
+		@apply absolute bottom-[-10px] left-0 w-full h-[2px] bg-[color:var(--mainPurple)];
+	}
+
+	.btn-main-style {
+		@apply pt-[18px] pb-[18px] pr-[28px] pl-[28px] rounded-2xl 
+		       text-[color:var(--white)] bg-gradient-to-r from-indigo-600 to-purple-700 font-[600]
+		       shadow-lg transition-all duration-300 ease-in-out 
+		       hover:shadow-[0_10px_20px_var(--shadowDark)];
+	}
+	.btn-disabled {
+		@apply pt-[18px] pb-[18px] pr-[28px] pl-[28px] rounded-2xl 
+		       text-[color:var(--whiteMuted)] bg-gradient-to-r from-gray-400 to-gray-600 font-[600]
+		       shadow-lg;
+	}
+
+	.main-title {
+		@apply text-[color:var(--black)] font-[900] text-[46px];
+	}
+	.main-subtitle {
+		@apply text-[color:var(--shadowDark)] font-[500] text-[18px] tracking-[1%] leading-[28px];
+	}
+	.label {
+		@apply flex flex-col gap-y-[5px];
+	}
+	.profileLabel {
+		@apply text-[16px] text-[#333] block mb-[10px] font-medium;
+	}
+	.input {
+		@apply w-full px-5 py-4 border border-[#000] rounded-xl text-[16px] focus:outline-none focus:border-[#6C5DD3] transition duration-200;
+	}
+	.about-title {
+		@apply text-[color:var(--foreground)] font-[900] text-[32px] leading-[42px];
+	}
+	.about-subtitle {
+		@apply text-[color:var(--secondGrey)] font-[500] text-[20px] leading-[28px];
+	}
+	.crafting-list {
+		@apply text-[color:var(--mainPurple)] font-[400] tracking-wide  p-[5px] border-[1px] rounded-xl;
+	}
+	.gradientFullBlock {
+		@apply bg-gradient-to-r from-indigo-500 to-blue-600 p-[2px] rounded-2xl shadow-md;
+	}
+	.gradientTopBlock {
+		@apply inset-x-0 top-0 h-[4px] bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-t-2xl;
+	}
+	.gradientBg {
+		@apply bg-gradient-to-r from-indigo-500 to-purple-500;
+	}
+	.form {
+		@apply w-full px-5 py-4 border border-[#e0e0e0] rounded-xl text-[16px] focus:outline-none focus:border-[#6C5DD3] transition duration-200;
+	}
+	.footer-title {
+		@apply text-[color:var(--white)] font-[700] text-[24px] leading-[32px];
+	}
+
+	.footer-subtitle {
+		@apply text-[color:var(--whiteMuted)] font-[400] text-[16px] tracking-[1%] leading-[113%];
+	}
+
+	.footer {
+		@apply flex flex-col bg-[color:var(--mainPurple)];
+	}
+}
+
+@theme inline {
+	--color-background: var(--background);
+	--color-foreground: var(--foreground);
+	--color-purple: var(--mainPurple);
+	--color-outlineCyan: var(--cyan);
+	--color-grey: var(--grey);
+	--color-secondGrey: var(--secondGrey);
+}
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		--background: #0a0a0a;
+		--foreground: #ededed;
+	}
+}
+
+body {
+	background: var(--background);
+	color: var(--foreground);
+	font-family: var(--font-sans), sans-serif;
+}
+
+body,
+html {
+	scrollbar-width: thin;
+}
+ul {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+code,
+pre {
+	font-family: var(--font-mono), monospace;
+}
+
+button {
+	border: none;
+	cursor: pointer;
+}
+
+input {
+	outline: none;
+}
