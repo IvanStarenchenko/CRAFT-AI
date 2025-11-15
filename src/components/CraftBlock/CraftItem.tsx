@@ -1,6 +1,6 @@
 'use client'
 import { memo } from 'react'
-import type { ICraftItemWithChosen } from '../../../craftItem.interface'
+import type { ICraftItemWithChosen } from '../../shared/types/craftItem.interface'
 import { useCraftStore } from '../../store/craft.store'
 function CraftItem({
 	id,

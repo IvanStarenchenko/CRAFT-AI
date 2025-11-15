@@ -1,7 +1,7 @@
 import { PAGES } from '@/config/pages.config'
 import { PLATECOLORS, WHOCOLORS } from '@/constants/colors.constants'
 import { MdOutlineLibraryBooks } from 'react-icons/md'
-import type { ICraftItem } from '../../../craftItem.interface'
+import type { ICraftItem } from '../types/craftItem.interface'
 
 const project = <MdOutlineLibraryBooks size={25} color={WHOCOLORS.plate1} />
 const report = <MdOutlineLibraryBooks size={25} color={WHOCOLORS.plate2} />
