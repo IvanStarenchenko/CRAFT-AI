@@ -1,4 +1,4 @@
-import { RESPONSE_STATUS, STATUS_GROUPS } from '@/constants/Statuses'
+import { RESPONSE_STATUS, STATUS_GROUPS, statuses } from '@/constants/Statuses'
 import { getApiResponse, postGeminiData } from '@/services/gemini'
 import type {
 	IFilesLinks,
@@ -21,19 +21,14 @@ export function useCraftGeneration() {
 	})
 	const status = statusText?.status
 
-	const isRecoverable = STATUS_GROUPS.RECOVERABLE.includes(
-		status as (typeof STATUS_GROUPS.RECOVERABLE)[number]
-	)
+	const {
+		isRecoverable,
+		isCompleted,
+		isGenerationWaiting,
+		stopPollingStatuses,
+	} = statuses(status || '')
 
-	const isCompleted = status === STATUS_GROUPS.DONE[0]
-
-	const isGenerationWaiting =
-		status != null &&
-		!isCompleted &&
-		isRecoverable &&
-		RESPONSE_STATUS.GENERATING_STRUCTURE
-
-	const sendMutation = useMutation({
+	const { mutate: sendMutation, isPending: isSending } = useMutation({
 		mutationFn: (data: IGeminiResponse) =>
 			postGeminiData<string, IGeminiResponse>(
 				'documents/generate/with-plan',
@@ -69,11 +64,9 @@ export function useCraftGeneration() {
 			setStatusText(status)
 
 			if (
-				status.status !== RESPONSE_STATUS.COMPLETED &&
-				status.status !== RESPONSE_STATUS.FAILED &&
-				status.status !== RESPONSE_STATUS.PARTIALLY_COMPLETED &&
-				status.status !== RESPONSE_STATUS.RECOVERY_FAILED &&
-				!status.status?.length
+				!stopPollingStatuses.includes(
+					status.status as (typeof STATUS_GROUPS.RETRY)[number]
+				)
 			) {
 				setTimeout(() => pollStatus(responseId), 5000)
 			}
@@ -95,7 +88,7 @@ export function useCraftGeneration() {
 			return
 		}
 		try {
-			await sendMutation.mutate(responseData)
+			sendMutation(responseData)
 		} catch (error) {
 			console.error('Ошибка при мутации:', error)
 		}
@@ -120,6 +113,7 @@ export function useCraftGeneration() {
 		statusText,
 		fileId,
 		links,
+		isSending,
 		handleSend,
 		handleRecover,
 	}

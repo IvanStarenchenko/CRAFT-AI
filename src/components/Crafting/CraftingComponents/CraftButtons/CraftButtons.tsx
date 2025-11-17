@@ -3,11 +3,12 @@
 import { useCraftGeneration } from '@/hooks/useCraftGeneration'
 import { motion } from 'framer-motion'
 import { FiFileText } from 'react-icons/fi'
+import { twMerge } from 'tailwind-merge'
 import { Completed } from './Conditions/Completed'
 import { Recovering } from './Conditions/Recovering'
 import { WhileGenerating } from './Conditions/WhileGenering'
 export function CraftButtons() {
-	const { uiState, fileId, links, handleSend, handleRecover } =
+	const { uiState, fileId, links, handleSend, handleRecover, isSending } =
 		useCraftGeneration()
 
 	const { isGenerationWaiting, isRecoverable, completedStatus } = uiState
@@ -27,7 +28,10 @@ export function CraftButtons() {
 				whileHover={{ scale: 1.05 }}
 				whileTap={{ scale: 0.95 }}
 				onClick={handleSend}
-				className='gradientBg flex items-center gap-2 px-6 py-3  text-white font-semibold rounded-xl shadow-md hover:shadow-lg transition'
+				className={twMerge(
+					'gradientBg flex items-center gap-2 px-6 py-3  text-white font-semibold rounded-xl shadow-md hover:shadow-lg transition',
+					isSending && 'btn-disabled'
+				)}
 			>
 				<FiFileText size={22} /> Сгенерировать
 			</motion.button>

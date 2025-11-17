@@ -64,8 +64,9 @@ export function MainForm({
 			<button
 				disabled={!isValid || isSubmitting || isPending}
 				className={twMerge(
-					'w-fit m-auto mt-[20px]',
-					!isValid || isSubmitting ? 'btn-disabled ' : 'btn-main-style '
+					' w-fit m-auto mt-[20px]',
+					!isValid || isSubmitting ? 'btn-disabled ' : 'btn-main-style ',
+					isPending && 'btn-disabled'
 				)}
 			>
 				{isPending ? 'Регистрация...' : 'Зарегистрироваться'}

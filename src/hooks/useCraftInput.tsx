@@ -15,16 +15,18 @@ export function useCraftInput() {
 	const searchParams = useSearchParams()
 	const [value, setValue] = useState('')
 
-	const { setCraftDescription, savedType, chosenItemId } = useCraftStore()
+	const { setCraftDescription, savedType } = useCraftStore()
 	const { setResponseData } = useResponseStore()
 
-	const creationParam = useCallback(() => {
-		const newSearchParams = new URLSearchParams(searchParams.toString())
-		const urlValue = value.trim().replace(/\s+/g, '-').toLowerCase()
-		newSearchParams.set('name', urlValue)
-		router.replace(`/crafting/${chosenItemId}?${newSearchParams.toString()}`)
-	}, [searchParams, value, chosenItemId, router])
-
+	const creationParam = useCallback(
+		(id: string) => {
+			const newSearchParams = new URLSearchParams(searchParams.toString())
+			const urlValue = value.trim().replace(/\s+/g, '-').toLowerCase()
+			newSearchParams.set('name', urlValue)
+			router.replace(`/crafting/${id}?${newSearchParams.toString()}`)
+		},
+		[searchParams, value, router]
+	)
 	const { mutate, isPending, isError, error } = useMutation({
 		mutationFn: (data: IGeminiRequest) =>
 			postGeminiData<IGeminiResponse, IGeminiRequest>(
@@ -37,7 +39,7 @@ export function useCraftInput() {
 
 		onSuccess: response => {
 			setResponseData(response)
-			creationParam()
+			creationParam(response.id || 'верни айди сука')
 		},
 
 		onError: error => {
@@ -45,11 +47,17 @@ export function useCraftInput() {
 		},
 	})
 
-	const handleCraft = async () => {
+	const handleCraft = () => {
 		setCraftDescription(value)
-		if (value.trim().length <= 10)
-			return toast.error('Тема слишком короткая. Минимум 10 символов.')
-		else mutate({ topic: value })
+		if (value.trim().length <= 8)
+			return toast.error('Тема слишком короткая. Минимум 8 символов.')
+		else if (value.trim().length > 120)
+			return toast.error('Тема слишком длинная. Максимум 120 символов.')
+		else if (savedType === undefined) {
+			return toast.error('Тип документа не выбран.')
+		} else {
+			mutate({ topic: value })
+		}
 	}
 
 	return {

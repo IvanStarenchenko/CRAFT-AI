@@ -1,41 +1,10 @@
 'use client'
 
-import { postGeminiData } from '@/services/gemini'
-import type {
-	IGeminiRequest,
-	IGeminiResponse,
-} from '@/shared/types/api.interface'
-import { useCraftStore } from '@/store/craft.store'
-import { useResponseStore } from '@/store/gemini.store'
-import { useMutation } from '@tanstack/react-query'
+import { useInfoPlate } from '@/hooks/useInfoPlate'
 import { motion } from 'framer-motion'
 import { FiRefreshCcw } from 'react-icons/fi'
 export function InfoPlate() {
-	const { craftDescription } = useCraftStore()
-	const { setResponseData } = useResponseStore()
-
-	const { mutate, isPending } = useMutation({
-		mutationFn: (data: IGeminiRequest) =>
-			postGeminiData<IGeminiResponse, IGeminiRequest>(
-				'orchestrator/structure',
-				data
-			),
-
-		onSuccess: response => {
-			setResponseData(response)
-		},
-
-		onError: error => {
-			console.error('Ошибка при генерации:', error)
-		},
-	})
-
-	function regenerate() {
-		if (!isPending) {
-			setResponseData(null)
-			mutate({ topic: craftDescription })
-		}
-	}
+	const { regenerate, isPending } = useInfoPlate()
 
 	return (
 		<div className='relative bg-white p-6 rounded-2xl shadow-md border border-gray-100 overflow-hidden'>
@@ -57,16 +26,25 @@ export function InfoPlate() {
 				<motion.button
 					whileHover={{ rotate: 180, scale: 1.1 }}
 					transition={{ duration: 0.6, ease: 'easeInOut' }}
-					onClick={() => {}}
+					onClick={() => {
+						regenerate()
+					}}
 					className='gradientBg mt-2 flex items-center justify-center w-14 h-14 rounded-full  shadow-md hover:shadow-lg active:scale-95 transition'
 				>
-					<FiRefreshCcw
-						size={28}
-						onClick={() => {
-							regenerate()
-						}}
-						className='text-white'
-					/>
+					<motion.div
+						animate={isPending ? { rotate: 360 } : { rotate: 0 }}
+						transition={
+							isPending
+								? {
+										repeat: Infinity,
+										duration: 2.5,
+										ease: 'linear',
+								  }
+								: {}
+						}
+					>
+						<FiRefreshCcw size={28} className='text-white' />
+					</motion.div>
 				</motion.button>
 			</div>
 		</div>

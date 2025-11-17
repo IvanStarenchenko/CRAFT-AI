@@ -8,6 +8,7 @@ export type TGenerationType =
 	| 'REFERAT'
 	| 'ESSAY'
 	| 'TEXT'
+	| undefined
 
 export interface IStatus {
 	id: number
@@ -18,6 +19,7 @@ export interface IGeminiRequest {
 	language?: string
 }
 export interface IGeminiResponse {
+	id: string
 	title: string
 	introduction: string
 	chapters: IGeminiResponseChapters[]

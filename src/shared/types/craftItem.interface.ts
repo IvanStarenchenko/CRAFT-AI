@@ -10,7 +10,7 @@ export interface ICraftItem {
 	type: TGenerationType
 }
 
-export interface ICraftItemWithChosen extends ICraftItem {
+export interface IChosenCraftItem extends ICraftItem {
 	isChosen: boolean
 	onChose: (id: number | null) => void
 }

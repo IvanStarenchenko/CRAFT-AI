@@ -1,6 +1,6 @@
 'use client'
+import type { IChosenCraftItem } from '@/shared/types/craftItem.interface'
 import { memo } from 'react'
-import type { ICraftItemWithChosen } from '../../shared/types/craftItem.interface'
 import { useCraftStore } from '../../store/craft.store'
 function CraftItem({
 	id,
@@ -12,7 +12,7 @@ function CraftItem({
 	bgc,
 	activeBg,
 	onChose,
-}: ICraftItemWithChosen) {
+}: IChosenCraftItem) {
 	const toggleType = useCraftStore(state => state.toggleType)
 
 	return (
@@ -27,7 +27,7 @@ function CraftItem({
 			}}
 			onClick={() => {
 				onChose(isChosen ? null : id)
-				toggleType(isChosen ? '' : type)
+				toggleType(isChosen ? undefined : type)
 			}}
 			className='flex items-center text-left w-full gap-x-[20px] pr-[20px] pb-[20px] pt-[20px] pl-[20px] border-1 rounded-[8px]'
 		>

@@ -26,6 +26,24 @@ export const STATUS_GROUPS = {
 		RESPONSE_STATUS.RECOVERY_FAILED,
 		RESPONSE_STATUS.PARTIALLY_COMPLETED,
 		RESPONSE_STATUS.COMPLETED,
-	] as const,
+	],
 	DONE: [RESPONSE_STATUS.COMPLETED],
 } as const
+
+export function statuses(status: string) {
+	const isRecoverable = STATUS_GROUPS.RECOVERABLE.includes(
+		status as (typeof STATUS_GROUPS.RECOVERABLE)[number]
+	)
+	const isCompleted = status === STATUS_GROUPS.DONE[0]
+	const isGenerationWaiting =
+		status === RESPONSE_STATUS.GENERATING_STRUCTURE ||
+		(status !== RESPONSE_STATUS.COMPLETED && isRecoverable)
+
+	const stopPollingStatuses = STATUS_GROUPS.RETRY
+	return {
+		isRecoverable,
+		isCompleted,
+		isGenerationWaiting,
+		stopPollingStatuses,
+	}
+}
