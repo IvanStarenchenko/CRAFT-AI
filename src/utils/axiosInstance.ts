@@ -20,11 +20,13 @@ export const axiosGeminiDocumentInstance = axios.create({
 })
 export const axiosGeminiCommon = axios.create({
 	baseURL: COMMON,
+	withCredentials: true,
 	headers: {
 		'Content-Type': 'application/json',
 	},
 })
 export const axiosAuth = axios.create({
+	withCredentials: true,
 	baseURL: AUTH,
 	headers: {
 		'Content-Type': 'application/json',

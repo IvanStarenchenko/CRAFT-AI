@@ -14,12 +14,16 @@ export interface IStatus {
 	id: number
 	status: TResponseStatus | null
 }
+export type GenerateRequest = {
+	data: IGeminiResponse
+	documentId: string
+}
 export interface IGeminiRequest {
 	topic: string
 	language?: string
 }
 export interface IGeminiResponse {
-	id: string
+	documentId: string
 	title: string
 	introduction: string
 	chapters: IGeminiResponseChapters[]

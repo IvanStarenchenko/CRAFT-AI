@@ -1,7 +1,7 @@
 'use client'
 import { useVerification } from '@/hooks/useVerification'
 import { getUserData, postAuthData } from '@/services/auth'
-import type { JwtAuthResponse } from '@/shared/types/JwtAuthResponse'
+import type { JwtAuthResponse } from '@/shared/types/AuthSuccessResponse'
 import type { IUser } from '@/shared/types/profile.interface'
 import { useUserStore } from '@/store/user.store'
 import { useMutation } from '@tanstack/react-query'

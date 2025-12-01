@@ -1,6 +1,7 @@
 import { RESPONSE_STATUS, STATUS_GROUPS, statuses } from '@/constants/Statuses'
 import { getApiResponse, postGeminiData } from '@/services/gemini'
 import type {
+	GenerateRequest,
 	IFilesLinks,
 	IGeminiResponse,
 	IStatus,
@@ -10,6 +11,7 @@ import { useCraftStore } from '@/store/craft.store'
 import { useResponseStore } from '@/store/gemini.store'
 import { useMutation } from '@tanstack/react-query'
 import { useCallback, useState } from 'react'
+import toast from 'react-hot-toast'
 export function useCraftGeneration() {
 	const responseData = useResponseStore(state => state.responseData)
 	const savedType = useCraftStore()
@@ -29,9 +31,9 @@ export function useCraftGeneration() {
 	} = statuses(status || '')
 
 	const { mutate: sendMutation, isPending: isSending } = useMutation({
-		mutationFn: (data: IGeminiResponse) =>
+		mutationFn: ({ data, documentId }: GenerateRequest) =>
 			postGeminiData<string, IGeminiResponse>(
-				'documents/generate/with-plan',
+				`documents/${documentId}/generate`,
 				data,
 				{ type: savedType.savedType as TGenerationType }
 			),
@@ -84,11 +86,14 @@ export function useCraftGeneration() {
 
 	const handleSend = useCallback(async () => {
 		if (!responseData) {
-			console.error('Нет данных для отправки.')
+			toast.error('Нет данных для отправки.')
 			return
 		}
 		try {
-			sendMutation(responseData)
+			sendMutation({
+				data: responseData,
+				documentId: fileId,
+			})
 		} catch (error) {
 			console.error('Ошибка при мутации:', error)
 		}

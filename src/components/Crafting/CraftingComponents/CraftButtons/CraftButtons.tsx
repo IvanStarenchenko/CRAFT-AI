@@ -15,7 +15,8 @@ export function CraftButtons() {
 
 	if (isRecoverable) return <WhileGenerating />
 
-	if (isGenerationWaiting) return <Recovering handleRecover={handleRecover} />
+	if (isGenerationWaiting || links.docxFileName === null)
+		return <Recovering handleRecover={handleRecover} />
 
 	if (completedStatus && fileId) return <Completed links={links} />
 

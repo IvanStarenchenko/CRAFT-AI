@@ -3,18 +3,18 @@ import { buildUrl } from '@/utils/urlBuilder'
 import type { AxiosRequestConfig } from 'axios'
 
 export async function getUserData<T>(
-	endpoint: string,
-	token?: string
+	endpoint: string
+	//token?: string
 ): Promise<T> {
 	const url = buildUrl(endpoint, [])
 
 	const config: AxiosRequestConfig = {}
 
-	if (token) {
-		config.headers = {
-			Authorization: `Bearer ${token}`,
-		}
-	}
+	// if (token) {
+	// 	config.headers = {
+	// 		Authorization: `Bearer ${token}`,
+	// 	}
+	// }
 
 	const { data } = await axiosAuth.get<T>(url, config)
 	return data

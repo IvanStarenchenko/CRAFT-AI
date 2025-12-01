@@ -1,6 +1,6 @@
 import { getUserData, postAuthData } from '@/services/auth'
 import type { ILogin } from '@/shared/types/auth.interface'
-import type { JwtAuthResponse } from '@/shared/types/JwtAuthResponse'
+import type { AuthSuccessResponse } from '@/shared/types/AuthSuccessResponse'
 import type { IUser } from '@/shared/types/profile.interface'
 import { useUserStore } from '@/store/user.store'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -48,12 +48,12 @@ export function useLogin() {
 	}, [])
 
 	const { mutate: loginMutation, isPending } = useMutation<
-		JwtAuthResponse,
+		AuthSuccessResponse,
 		Error,
 		ILogin
 	>({
 		mutationFn: (data: ILogin) => {
-			return postAuthData<JwtAuthResponse, ILogin>('login', data)
+			return postAuthData<AuthSuccessResponse, ILogin>('login', data)
 		},
 		onSuccess: res => {
 			console.log('seccess')

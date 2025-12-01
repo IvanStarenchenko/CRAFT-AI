@@ -1,13 +1,15 @@
 'use client'
 import { ASIDE } from '@/shared/data/profile.data'
 import { useProfilesStore } from '@/store/profile.store'
-import { useRouter } from 'next/navigation'
 export function Aside() {
 	const { chosenItem, toggleItem } = useProfilesStore()
-	const router = useRouter()
+	// const router = useRouter()
+	// const logout = () => {
+	// 	localStorage.removeItem('token')
+	// 	router.replace('/login')
+	// }
 	const logout = () => {
-		localStorage.removeItem('token')
-		router.replace('/login')
+		console.log('Logout function called')
 	}
 	return (
 		<div>

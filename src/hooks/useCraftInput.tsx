@@ -30,7 +30,7 @@ export function useCraftInput() {
 	const { mutate, isPending, isError, error } = useMutation({
 		mutationFn: (data: IGeminiRequest) =>
 			postGeminiData<IGeminiResponse, IGeminiRequest>(
-				'orchestrator/structure',
+				'documents/structure/generate',
 				data,
 				{
 					type: savedType,
@@ -39,7 +39,7 @@ export function useCraftInput() {
 
 		onSuccess: response => {
 			setResponseData(response)
-			creationParam(response.id || 'верни айди сука')
+			creationParam(response.documentId || 'верни айди сука')
 		},
 
 		onError: error => {
