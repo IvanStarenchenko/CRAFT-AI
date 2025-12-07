@@ -37,3 +37,10 @@ export async function postAuthData<T, U>(
 	const { data: res } = await axiosAuth.post<T>(url, data)
 	return res
 }
+
+export async function delAuthData<T>(endpoint: string): Promise<T> {
+	const url = buildUrl(endpoint, [])
+
+	const { data } = await axiosAuth.delete<T>(url)
+	return data
+}

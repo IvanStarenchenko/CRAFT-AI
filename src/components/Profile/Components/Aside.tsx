@@ -1,16 +1,14 @@
 'use client'
+import { delAuthData } from '@/services/auth'
 import { ASIDE } from '@/shared/data/profile.data'
 import { useProfilesStore } from '@/store/profile.store'
 export function Aside() {
 	const { chosenItem, toggleItem } = useProfilesStore()
-	// const router = useRouter()
-	// const logout = () => {
-	// 	localStorage.removeItem('token')
-	// 	router.replace('/login')
-	// }
+
 	const logout = () => {
-		console.log('Logout function called')
+		delAuthData('auth/logout')
 	}
+
 	return (
 		<div>
 			<ul className='flex flex-col sticky top-[120px] gap-y-3 bg-white w-fit rounded-2xl p-3 shadow-sm border border-gray-100'>
